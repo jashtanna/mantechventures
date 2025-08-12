@@ -1,0 +1,92 @@
+name: Test and Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Test Application
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_DB: video_ads_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.21'
+
+    - name: Install dependencies
+      run: go mod download
+
+    - name: Run unit tests
+      run: go test -v ./...
+
+    - name: Run tests with coverage
+      run: go test -v -coverprofile=coverage.out ./...
+
+    - name: Display coverage
+      run: go tool cover -func=coverage.out
+
+  build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build Docker image
+      run: docker build -t video-ad-tracker .
+
+    - name: Test Docker image
+      run: |
+        docker run -d --name test-app -p 8080:8080 \
+          -e DATABASE_URL="postgres://postgres:password@host.docker.internal:5432/video_ads_test?sslmode=disable" \
+          video-ad-tracker
+        sleep 10
+        curl -f http://localhost:8080/health || exit 1
+        docker stop test-app
+        docker rm test-app
+
+  integration:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Run integration tests
+      run: |
+        docker-compose up -d
+        sleep 15
+        ./scripts/test_api.sh
+        docker-compose down

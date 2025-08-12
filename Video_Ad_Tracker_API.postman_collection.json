@@ -1,0 +1,157 @@
+{
+	"info": {
+		"_postman_id": "video-ad-tracker-api",
+		"name": "Video Ad Tracker API",
+		"description": "API collection for Video Advertisement Tracking Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+
+		{
+			"name": "Get All Advertisements",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/v1/ads",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"ads"
+					]
+				},
+				"description": "Retrieve all available video advertisements"
+			},
+			"response": []
+		},
+		{
+			"name": "Record Click Event",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"ad_id\": 1,\n  \"video_playback_time\": 15.5,\n  \"ip_address\": \"192.168.1.1\",\n  \"user_agent\": \"Mozilla/5.0 (Test Browser)\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/ads/click",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"ads",
+						"click"
+					]
+				},
+				"description": "Record a click event on an advertisement (processed asynchronously)"
+			},
+			"response": []
+		},
+
+		{
+			"name": "Analytics - 24 Hours (Default)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/v1/ads/analytics?timeframe=24h",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"ads",
+						"analytics"
+					],
+					"query": [
+						{
+							"key": "timeframe",
+							"value": "24h"
+						}
+					]
+				},
+				"description": "Get analytics for the last 24 hours (default timeframe)"
+			},
+			"response": []
+		},
+
+		{
+			"name": "Hourly Analytics Breakdown",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/v1/ads/analytics/hourly",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"ads",
+						"analytics",
+						"hourly"
+					]
+				},
+				"description": "Get hourly breakdown of analytics for the last 24 hours"
+			},
+			"response": []
+		},
+		{
+			"name": "Prometheus Metrics",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/metrics",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"metrics"
+					]
+				},
+				"description": "Get Prometheus metrics for monitoring"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}
