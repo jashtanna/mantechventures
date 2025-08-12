@@ -246,26 +246,13 @@ make build
 make docker-run
 ```
 
-### Troubleshooting
 
-**Port 8080 already in use:**
-```bash
-# Stop existing containers
-docker-compose down
 
-# Or use a different port
-export PORT=8081
-go run main.go
-```
 
-**Database connection issues:**
-```bash
-# Check if database is running
-docker ps | grep postgres
 
-# Restart database if needed
-docker restart postgres-db
-```
+
+
+
 
 ## CI/CD Pipeline
 
@@ -303,7 +290,6 @@ video-ad-tracker/
 ├── docker-compose.yml     # Development environment
 ├── Dockerfile             # Production container
 ├── Video_Ad_Tracker_API.postman_collection.json  # Postman collection
-├── INTERVIEW_QUESTIONS.md                        # 100 Q&A for interviews
 ├── .github/workflows/     # CI/CD pipelines
 │   ├── ci-cd.yml         # Full CI/CD pipeline
 │   └── test-and-build.yml # Basic test and build
@@ -317,38 +303,9 @@ video-ad-tracker/
     └── middleware/        # Logging and metrics
 ```
 
-## Interview Preparation
 
-### Q&A Guide
 
-The `INTERVIEW_QUESTIONS.md` file contains **100 detailed questions and answers** covering:
 
-**Technical Topics:**
-- Architecture decisions and trade-offs
-- Concurrency and performance optimization
-- Database design and scaling
-- API design and HTTP best practices
-- Testing strategies and quality assurance
-- Deployment and DevOps practices
-
-**Business & Product:**
-- Revenue generation and business metrics
-- Scalability and performance considerations
-- Security and compliance requirements
-- Real-world production challenges
-
-**Tricky Questions:**
-- Edge cases and error handling
-- System failure scenarios
-- Data consistency and integrity
-- Performance bottlenecks
-
-**Perfect for:**
-- Technical interviews
-- System design discussions
-- Code reviews
-- Architecture discussions
-- Production readiness assessments
 
 ## License
 
