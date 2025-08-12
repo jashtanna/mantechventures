@@ -21,9 +21,9 @@ sleep 10
 if docker-compose ps | grep -q "Up"; then
     echo "Services started successfully"
     echo "API available at: http://localhost:8080"
-    echo "Health check: http://localhost:8080/health"
+    echo "API endpoint: http://localhost:8080/api/v1/ads"
     echo ""
-    echo "To test the API, run: ./scripts/test_api.sh"
+    echo "To test the API, run: curl http://localhost:8080/api/v1/ads"
     echo "To stop services, run: docker-compose down"
 else
     echo "Error: Services failed to start"

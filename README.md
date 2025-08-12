@@ -46,7 +46,7 @@ cd video-ad-tracker
 ./run.sh
 
 # Test the API
-./scripts/test_api.sh
+curl http://localhost:8080/api/v1/ads
 ```
 
 **What the run.sh script does:**

@@ -88,5 +88,5 @@ jobs:
       run: |
         docker-compose up -d
         sleep 15
-        ./scripts/test_api.sh
+        curl -f http://localhost:8080/api/v1/ads || exit 1
         docker-compose down
